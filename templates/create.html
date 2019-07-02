@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<div class="jumbotron">
+  <h1 class="display-4">備品登録</h1>
+  <p class="lead">備品情報を記入してください</p>
+  <hr class="my-4">
+</div>
+{% endblock header %}
+
+{% block content %}
+<div class='container'>
+<form acthion="" method="POST">{% csrf_token %}
+    <p>備品名：<input type="text" name="assetname"></p>
+    <p>管理番号：<input type="text" name="controlno"></p>
+    <p>型番：<input type="text" name="modelno"></p>
+    <p>購入日：<input type="date" name="boughtdate"></p>
+    <p>保管場所：<input type="text" name="stockplace"></p>
+    <input type="submit" value="登録する">
+</form>
+</div>
+{% endblock content %}
+    

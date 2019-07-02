@@ -1,0 +1,18 @@
+{% block header %}
+<div class="jumbotron">
+  <h1 class="display-4">編集</h1>
+  <p class="lead">登録内容の編集</p>
+  <hr class="my-4">
+</div>
+{% endblock header %}
+
+{% block content %}
+<form acthion="" method="POST">{% csrf_token %}
+    <p>備品名:<input type="text" name="assetname" value="assetname"></p>
+    <p>管理番号:<input type="text" name="controlno" value="controlno"></p>
+    <p>型番<input type="text" name="modelno" value="modelno"></p>
+    <p>購入日<input type="date" name="boughtdate" value="boughtdate"></p>
+    <p>保管場所<input type="text" name="stockplace" value="stockplace"></p>
+    <input type="submit" value="編集する">
+</form>
+{% endblock content %}
