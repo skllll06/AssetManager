@@ -1,30 +1,36 @@
 {% extends 'base.html' %}
 
 {% block customcss %}
-
 {% endblock customcss %}
 
+
+
 {% block header %}
-<div class="alert alert-dark" role="alert">
-  備品リスト
+<div class="jumbotron">
+  <h1 class="display-4">備品リスト</h1>
+  <p class="lead">ダブルクリックで予約リストに移動します</p>
+  <hr class="my-4">
 </div>
 {% endblock header %}
 
 {% block content %}
-  <form method="post" action="">
-   <table class="table table-hover">
-      <thead>
-        <tr>
-          <th>備品名</th>
-          <th>管理番号</th>
-          <th>型名</th>
-        　<th>購入日</th>
-          <th>保管場所</th>
-          <th><a href="{% url 'create' %}" class="btn btn-outline-danger btn-sm"　align="right">新規登録</a></th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for assetlist in object_list %}
+<!--listup-->
+<section class="section">
+  <div class="container">
+    <form method="post" action="">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>備品名</th>
+            <th>管理番号</th>
+            <th>型名</th>
+            　<th>購入日</th>
+            <th>保管場所</th>
+            <th><a href="{% url 'create' %}" class="btn btn-outline-danger btn-sm" 　align="right">新規登録</a></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for assetlist in object_list %}
           <tr>
             <td>{{ assetlist.assetname }}</td>
             <td>{{ assetlist.controlno }}</td>
@@ -32,15 +38,55 @@
             <td>{{ assetlist.boughtdate }}</td>
             <td>{{ assetlist.stockplace }}</td>
             <td>
-            <a href="{% url 'update' assetlist.pk %}" class="btn btn-outline-danger btn-sm"　align="right">編集</a>
-             <a href="{% url 'delete' assetlist.pk %}" class="btn btn-outline-danger btn-sm"　align="right">削除</a>
-             </td>
+              <a href="{% url 'update' assetlist.pk %}" class="btn btn-outline-danger btn-sm" 　>編集</a>
+              <a url="{% url 'delete' assetlist.pk %}" class="deletemodal-show btn btn-outline-danger btn-sm"
+                data-toggle="modal" data-target="#deleteModal" pk="{{ assetlist.controlno }}">削除</a>
+            </td>
           </tr>
-        {% endfor %}
-        
-        <a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm"　align="right">ログアウト</a>
+          {% endfor %}
+        </tbody>
+      </table>
+      <a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm" 　align="right">ログアウト</a>
+  </div>
+</section>
+<!--end listup-->
 
-      </tbody>
-    </table>
-  </form>
+<!--ポップアップ-->
+<div class="modal">
+  {% csrf_token %}
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">確認</p>
+    </header>
+    <div class="modal-body">
+      <p>管理番号: <span id="del_pk"></span> を削除しますか？ </p>
+    </div>
+    <footer class="modal-card-foot">
+      <a href="" class="button is-success" id="del_url">削除</a>
+      <a type="button" class="btn btn-secondary" id="modal-close">キャンセル</a>
+    </footer>
+  </div>
+</div>
+<!--endポップアップ-->
+
+</form>
 {% endblock content %}
+
+{% block extrajs %}
+
+
+
+<script type="text/javascript">
+  $(".deletemodal-show").click(function () {
+    $('.modal').addClass("is-active");
+    $("#del_pk").text($(this).attr("pk"));
+    $("#del_url").attr('href', $(this).attr("url"));
+  });
+
+  $("#modal-close").click(function () {
+    $(".modal").hide();
+  });
+
+</script>
+{% endblock extrajs %}
